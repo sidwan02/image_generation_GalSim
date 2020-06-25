@@ -107,12 +107,6 @@ coeff_exp = [coeff_exp_euclid*N_exposures_euclid]*4 + [coeff_exp_lsst* N_exposur
 
 
 
-
-
-
-
-
-
 #################### PSF ###################
 ### If a varying PSF is needed, uncomment this part. ####
 ###--------------------------------------------------####
