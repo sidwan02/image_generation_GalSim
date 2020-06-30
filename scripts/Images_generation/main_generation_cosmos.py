@@ -19,24 +19,29 @@ from tools_for_VAE import utils
 from images_generator import image_generator_sim, image_generator_real
 
 # The script is used as, eg,
-# >> python main_blended_generation_cosmos.py centered/ training isolated noshift false 10 1000 1
+# >> python main_blended_generation_cosmos.py centered/ training isolated false 10 1000 1
 # to produce 10 files in the training sample with 1000 images each of isolated galaxy centered on the image with no shift.
 case = str(sys.argv[1]) # centered/ miscentered_0.1/ miscentered_peak/ 
 gal_type = str(sys.argv[2]) #simulation or real/
 training_or_test = str(sys.argv[3]) # training test validation
 isolated_or_blended = str(sys.argv[4]) #isolated blended
-method_shift = str(sys.argv[5]) # noshift uniform uniform+betaprime
-do_peak_detection = str(sys.argv[6]).lower() == 'true'
-N_files = int(sys.argv[7]) # Nb of files to generate
-N_per_file = str(sys.argv[8]) # Number of galaxies per file
-nmax_blend = int(sys.argv[9]) # Maximum number of galaxies on an image
+do_peak_detection = str(sys.argv[5]).lower() == 'true'
+N_files = int(sys.argv[6]) # Nb of files to generate
+N_per_file = str(sys.argv[7]) # Number of galaxies per file
+nmax_blend = int(sys.argv[8]) # Maximum number of galaxies on an image
 assert training_or_test in ['training', 'validation', 'test']
 
 # Fixed parameters:
 max_try = 100 # maximum number of try before leaving the function (to avoir infinite loop)
 mag_cut = 27.5 # cut in magnitude to select galaxies below this magnitude
-center_brightest = True # Center the brightest galaxy (i.e. the galaxy with the highest magnitude)
 max_stamp_size = 64 # Size of patch to generate
+center_brightest = True # Center the brightest galaxy (i.e. the galaxy with the lowest magnitude)
+# If center_brightest = False : choose with method to use to shift the brightest
+method_shift_brightest = 'noshift'
+# And then you need to choose the method to shift the other galaxies as a function of the position of the brightest on the image
+method_shift_others = 'uniform'
+max_dx = 3.2 #in arcseconds, limit to use for uniform shifting: the center of the shifted galaxy will be shifted from the center or from the brightest galaxy from a random number between [-max_dx ; max_dx] arcsecond
+max_r = 2. #in arcseconds, limit to use for annulus shifting: galaxy is shifted in an annulus around the center of the image or of the brightest galaxy which has for minimum radius fwhm_lsst/2 and for maximum radius max_r
 
 # Method to shift centered galaxy
 if isolated_or_blended == 'isolated':
@@ -81,9 +86,9 @@ for icat in trange(N_files):
     
     # Depending of type of galaxies you wand (simulation or real galaxies) use the correct generating function
     if gal_type == 'simulation':
-        res = utils.apply_ntimes(image_generator_sim, N_per_file, (cosmos_cat_dir, training_or_test, isolated_or_blended, save_dir, used_idx, nmax_blend, max_try, mag_cut, method_shift, do_peak_detection, center_brightest, max_stamp_size))
+        res = utils.apply_ntimes(image_generator_sim, N_per_file, (cosmos_cat_dir, training_or_test, isolated_or_blended, save_dir, used_idx, nmax_blend, max_try, mag_cut, method_shift_brightest, method_shift_others, max_dx, max_r, do_peak_detection, center_brightest, max_stamp_size))
     elif gal_type == 'real':
-        res = utils.apply_ntimes(image_generator_real, N_per_file, (cosmos_cat_dir, training_or_test, isolated_or_blended, save_dir, used_idx, nmax_blend, max_try, mag_cut, method_shift, do_peak_detection, center_brightest, max_stamp_size))
+        res = utils.apply_ntimes(image_generator_real, N_per_file, (cosmos_cat_dir, training_or_test, isolated_or_blended, save_dir, used_idx, nmax_blend, max_try, mag_cut, method_shift_brightest, method_shift_others, max_dx, max_r, do_peak_detection, center_brightest, max_stamp_size))
 
     
     for i in trange(N_per_file):

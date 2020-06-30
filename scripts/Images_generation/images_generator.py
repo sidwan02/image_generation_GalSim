@@ -27,7 +27,7 @@ rng = galsim.BaseDeviate(None)
 
 ########## IMAGES NUMPY ARRAYS GENERATION
 # CASE OF PARAMETRIC IMAGES - SIMULATION
-def image_generator_sim(cosmos_cat_dir, training_or_test, isolated_or_blended, used_idx=None, nmax_blend=4, max_try=3, mag_cut=28., method_first_shift='noshift', do_peak_detection=True, center_brightest = True, max_stamp_size= 64):
+def image_generator_sim(cosmos_cat_dir, training_or_test, isolated_or_blended, used_idx=None, nmax_blend=4, max_try=3, mag_cut=28., method_first_shift='noshift',  method_others_shift='uniform', max_dx = 3.2, max_r = 2., do_peak_detection=True, center_brightest = True, max_stamp_size= 64):
     """
     Return numpy arrays: noiseless and noisy image of single galaxy and of blended galaxies as well as the pandaframe including data about the image and the shifts in the test sample generation configuration
     
@@ -108,10 +108,10 @@ def image_generator_sim(cosmos_cat_dir, training_or_test, isolated_or_blended, u
             shift = np.zeros((nmax_blend,2))
             if center_brightest == False:
                 # Shift the lowest magnitude galaxy
-                galaxies[0], shift[0] = shift_gal(galaxies[0], method=method_first_shift, max_dx=3.2)
+                galaxies[0], shift[0] = shift_gal(galaxies[0], method=method_first_shift, max_dx=max_dx, max_r = max_r)
             # Shift all the other galaxies
-            for j,gal in enumerate(galaxies[1:]):
-                galaxies[j+1], shift[j+1] = shift_gal(gal, method=method_first_shift, max_dx=3.2)
+            for j,gal in enumerate(galaxies[1:]): 
+                galaxies[j+1], shift[j+1] = shift_gal(gal, method=method_others_shift, max_dx=max_dx, max_r = max_r)
             
             # Compute distances of the neighbour galaxies to the lowest magnitude galaxy
             if nb_blended_gal>1:
@@ -210,7 +210,7 @@ def image_generator_sim(cosmos_cat_dir, training_or_test, isolated_or_blended, u
 
 
 # CASE OF REAL IMAGES
-def image_generator_real(cosmos_cat_dir, training_or_test, isolated_or_blended, used_idx=None, nmax_blend=4, max_try=3, mag_cut=28., method_first_shift='noshift', do_peak_detection=True, center_brightest = True, max_stamp_size= 64):
+def image_generator_real(cosmos_cat_dir, training_or_test, isolated_or_blended, used_idx=None, nmax_blend=4, max_try=3, mag_cut=28., method_first_shift='noshift', method_others_shift='uniform', max_dx = 3.2, max_r = 2., do_peak_detection=True, center_brightest = True, max_stamp_size= 64):
     """
     Return numpy arrays: noiseless and noisy image of single galaxy and of blended galaxies as well as the pandaframe including data about the image and the shifts in the test sample generation configuration
     
@@ -283,10 +283,10 @@ def image_generator_real(cosmos_cat_dir, training_or_test, isolated_or_blended, 
             shift = np.zeros((nmax_blend,2))
             if center_brightest == False:
                 # Shift the lowest magnitude galaxy
-                galaxies[0], shift[0] = shift_gal(galaxies[0], method=method_first_shift, max_dx=3.2)
+                galaxies[0], shift[0] = shift_gal(galaxies[0], method=method_first_shift, max_dx=max_dx, max_r = max_r)
             # Shift all the other galaxies
             for j,gal in enumerate(galaxies[1:]):
-                galaxies[j+1], shift[j+1] = shift_gal(gal, method=method_first_shift, max_dx=3.2)
+                galaxies[j+1], shift[j+1] = shift_gal(gal, method=method_others_shift, max_dx=max_dx, max_r = max_r)
             
             # Compute distances of the neighbour galaxies to the lowest magnitude galaxy
             if nb_blended_gal>1:

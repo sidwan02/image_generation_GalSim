@@ -66,7 +66,7 @@ def get_data(gal, gal_image, psf_image, param_or_real='param'):
 
 ############ SHIFTING GALAXIES
 
-def shift_gal(gal, method='uniform', shift_x0=0., shift_y0=0., max_dx=0.1, min_r = 0.65/2., max_r = 2.):
+def shift_gal(gal, method='uniform', shift_x0=0., shift_y0=0., max_dx=0.1, min_r = fwhm_lsst/2., max_r = 2.):
     """
     Return galaxy shifted according to the chosen shifting method
     
