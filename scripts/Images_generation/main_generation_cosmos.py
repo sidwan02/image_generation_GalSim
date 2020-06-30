@@ -36,6 +36,7 @@ assert training_or_test in ['training', 'validation', 'test']
 max_try = 100 # maximum number of try before leaving the function (to avoir infinite loop)
 mag_cut = 27.5 # cut in magnitude to select galaxies below this magnitude
 center_brightest = True # Center the brightest galaxy (i.e. the galaxy with the highest magnitude)
+max_stamp_size = 64 # Size of patch to generate
 
 # Method to shift centered galaxy
 if isolated_or_blended == 'isolated':
@@ -80,9 +81,9 @@ for icat in trange(N_files):
     
     # Depending of type of galaxies you wand (simulation or real galaxies) use the correct generating function
     if gal_type == 'simulation':
-        res = utils.apply_ntimes(image_generator_sim, N_per_file, (cosmos_cat_dir, training_or_test, isolated_or_blended, save_dir, used_idx, nmax_blend, max_try, mag_cut, method_shift, do_peak_detection, center_brightest))
+        res = utils.apply_ntimes(image_generator_sim, N_per_file, (cosmos_cat_dir, training_or_test, isolated_or_blended, save_dir, used_idx, nmax_blend, max_try, mag_cut, method_shift, do_peak_detection, center_brightest, max_stamp_size))
     elif gal_type == 'real':
-        res = utils.apply_ntimes(image_generator_real, N_per_file, (cosmos_cat_dir, training_or_test, isolated_or_blended, save_dir, used_idx, nmax_blend, max_try, mag_cut, method_shift, do_peak_detection, center_brightest))
+        res = utils.apply_ntimes(image_generator_real, N_per_file, (cosmos_cat_dir, training_or_test, isolated_or_blended, save_dir, used_idx, nmax_blend, max_try, mag_cut, method_shift, do_peak_detection, center_brightest, max_stamp_size))
 
     
     for i in trange(N_per_file):

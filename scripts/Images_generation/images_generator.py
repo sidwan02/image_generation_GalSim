@@ -27,7 +27,7 @@ rng = galsim.BaseDeviate(None)
 
 ########## IMAGES NUMPY ARRAYS GENERATION
 # CASE OF PARAMETRIC IMAGES - SIMULATION
-def image_generator_sim(cosmos_cat_dir, training_or_test, isolated_or_blended, used_idx=None, nmax_blend=4, max_try=3, mag_cut=28., method_first_shift='noshift', do_peak_detection=True, center_brightest = True):
+def image_generator_sim(cosmos_cat_dir, training_or_test, isolated_or_blended, used_idx=None, nmax_blend=4, max_try=3, mag_cut=28., method_first_shift='noshift', do_peak_detection=True, center_brightest = True, max_stamp_size= 64):
     """
     Return numpy arrays: noiseless and noisy image of single galaxy and of blended galaxies as well as the pandaframe including data about the image and the shifts in the test sample generation configuration
     
@@ -210,7 +210,7 @@ def image_generator_sim(cosmos_cat_dir, training_or_test, isolated_or_blended, u
 
 
 # CASE OF REAL IMAGES
-def image_generator_real(cosmos_cat_dir, training_or_test, isolated_or_blended, used_idx=None, nmax_blend=4, max_try=3, mag_cut=28., method_first_shift='noshift', do_peak_detection=True, center_brightest = True):
+def image_generator_real(cosmos_cat_dir, training_or_test, isolated_or_blended, used_idx=None, nmax_blend=4, max_try=3, mag_cut=28., method_first_shift='noshift', do_peak_detection=True, center_brightest = True, max_stamp_size= 64):
     """
     Return numpy arrays: noiseless and noisy image of single galaxy and of blended galaxies as well as the pandaframe including data about the image and the shifts in the test sample generation configuration
     

@@ -15,7 +15,7 @@ pixel_scale_euclid_nir = 0.3 # arcseconds # Euclid Science book
 pixel_scale_euclid_vis = 0.1 # arcseconds # Euclid Science book
 pixel_scale = [pixel_scale_euclid_nir]*3 + [pixel_scale_euclid_vis] + [pixel_scale_lsst]*6
 
-max_stamp_size = 64 #np.max((lsst_stamp_size,nir_stamp_size,vis_stamp_size))
+#max_stamp_size = 64 #np.max((lsst_stamp_size,nir_stamp_size,vis_stamp_size))
 
 #################### FILTERS ###################
 filters = {}
