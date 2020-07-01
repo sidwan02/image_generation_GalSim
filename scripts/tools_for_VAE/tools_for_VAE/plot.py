@@ -6,7 +6,7 @@ import matplotlib
 from matplotlib.offsetbox import TextArea, DrawingArea, OffsetImage, AnnotationBbox
 
 # Plot RGB images
-def plot_rgb(gal, bands=[5,6,7], ax=None, band_first=True, zoom=1.5, shifts=None):
+def plot_rgb(gal, bands=[5,6,7], ax=None, band_first=True, zoom=1.5, shifts=None, clip = False):
     '''
     Return plot in rgb of image
     '''
@@ -17,52 +17,19 @@ def plot_rgb(gal, bands=[5,6,7], ax=None, band_first=True, zoom=1.5, shifts=None
     else:
         tr = [0,1,2]
     
-    imsize = float(gal.shape[1]) / 2.
-    ax.imshow(np.clip(gal[:,:,:].transpose(tr)[:,:,bands], a_min=0.0, a_max=1.), extent=(-imsize,imsize,-imsize,imsize), origin='lower left')#0., 1. 
+    imsize = float(gal.shape[1])/2
+    if clip==True:
+        ax.imshow(np.clip(gal[:,:,:].transpose(tr)[:,:,bands], a_min=0.0, a_max=1.), extent=(-imsize,imsize,-imsize,imsize), origin='lower left')
+    else:
+        # Here, in the extent kwargs, the bottom is put at the top of image and vice versa, to mimic the basic behavior of matplotlib if imshow in only one band
+        ax.imshow(gal[:,:,:].transpose(tr)[:,:,bands], extent=(-imsize,imsize,imsize,-imsize), origin='lower left')
     if shifts is not None:
         for (x,y) in shifts:
-            ax.scatter(x, y,  marker='+', c='r')
-    ax.scatter(0., 0., marker='+', c='b')
+            # As a consequence from previous comment, need to put -y here.
+            ax.scatter(x, -y,  marker='+', c='r')
     ax.set_xlim(-imsize/zoom,imsize/zoom)
     ax.set_ylim(-imsize/zoom,imsize/zoom)
     ax.axis('off')
-
-
-
-def plot_rgb_lsst(ugrizy_img, stamp_size, ax=None):
-    '''
-    Return plot in rgb of LSST image
-    '''
-    RGB_img = np.zeros((stamp_size,stamp_size,3))
-    if ax is None:
-        _, ax = plt.subplots(1,1)
-    max_img = np.max(ugrizy_img)
-
-    coeff = int(len(ugrizy_img[0])/stamp_size) - 1
-
-    ugrizy_img = ugrizy_img[:,:,:]
-    RGB_img[:,:,0] = ugrizy_img[0+16*coeff:64-16*coeff,0+16*coeff:64-16*coeff,1]
-    RGB_img[:,:,1] = ugrizy_img[0+16*coeff:64-16*coeff,0+16*coeff:64-16*coeff,2]
-    RGB_img[:,:,2] = ugrizy_img[0+16*coeff:64-16*coeff,0+16*coeff:64-16*coeff,3]
-    ax.imshow(np.clip(RGB_img[:,:,[0,1,2]], a_min=0.0, a_max=None) / max_img, origin='lower left')
-
-
-def plot_rgb_lsst_euclid(ugrizy_img, stamp_size, ax=None):
-    '''
-    Return plot in rgb of LSST_Euclid image
-    '''
-    RGB_img = np.zeros((stamp_size,stamp_size,3))
-    if ax is None:
-        _, ax = plt.subplots(1,1)
-    max_img = np.max(ugrizy_img[:,:,4:])
-
-    coeff = int(len(ugrizy_img[0])/stamp_size) - 1
-
-    ugrizy_img = ugrizy_img[:,:,:]
-    RGB_img[:,:,0] = ugrizy_img[0+16*coeff:64-16*coeff,0+16*coeff:64-16*coeff,5]
-    RGB_img[:,:,1] = ugrizy_img[0+16*coeff:64-16*coeff,0+16*coeff:64-16*coeff,6]
-    RGB_img[:,:,2] = ugrizy_img[0+16*coeff:64-16*coeff,0+16*coeff:64-16*coeff,8]
-    ax.imshow(np.clip(RGB_img[:,:,[2,1,0]], a_min=0.0, a_max=None) / max_img, origin='lower left')
 
 
 
