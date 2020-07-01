@@ -1,26 +1,16 @@
 # Import packages
 import numpy as np
 import matplotlib.pyplot as plt
-import tensorflow.keras
 import sys
 import os
-import logging
 import galsim
-import random
-import cmath as cm
-import math
-from tensorflow.keras import backend as K
-from tensorflow.keras import metrics
-from tensorflow.keras.layers import Input, Dense, Lambda, Layer, Add, Multiply, BatchNormalization, Reshape, Flatten, Conv2D,  PReLU,Conv2DTranspose
-from tensorflow.keras.models import Model, Sequential
-from scipy.stats import norm
-import tensorflow as tf
+import multiprocessing
+import time
+from tqdm import tqdm, trange
 import pathlib
 from pathlib import Path
 
-from . import model, vae_functions, plot
-
-
+from . import plot
 
 def listdir_fullpath(d):
     return [os.path.join(d, f) for f in os.listdir(d)]
@@ -202,73 +192,7 @@ def compute_blendedness_aperture(img_central, img_others, radius):
 
 
 
-################ LOAD MODEL FUNCTIONS
-
-def load_vae_conv(path,nb_of_bands,folder = False):
-    """
-    Return the loaded VAE, outputs for plotting evlution of training, the encoder and the Kullback-Leibler divergence 
-
-    Parameters:
-    ----------
-    path: path to saved weights
-    nb_of_bands: number of filters to use
-    folder: boolean, change the loading function
-    """        
-    latent_dim = 32
-    
-    # Build the encoder and decoder
-    encoder, decoder = model.vae_model(latent_dim, nb_of_bands)
-
-    # Build the model
-    vae_loaded, vae_utils,  Dkl = vae_functions.build_vanilla_vae(encoder, decoder, full_cov=False, coeff_KL = 0)
-
-    if folder == False: 
-        vae_loaded.load_weights(path)
-    else:
-        latest = tf.train.latest_checkpoint(path)
-        vae_loaded.load_weights(latest)
-
-    return vae_loaded, vae_utils, encoder, Dkl
-
-
-def load_vae_full(path, nb_of_bands, folder=False):
-    """
-    Return the loaded VAE, outputs for plotting evlution of training, the encoder, the decoder and the Kullback-Leibler divergence 
-
-    Parameters:
-    ----------
-    path: path to saved weights
-    nb_of_bands: number of filters to use
-    folder: boolean, change the loading function
-    """        
-    latent_dim = 32
-    
-    # Build the encoder and decoder
-    encoder, decoder = model.vae_model(latent_dim, nb_of_bands)
-
-    # Build the model
-    vae_loaded, vae_utils,  Dkl = vae_functions.build_vanilla_vae(encoder, decoder, full_cov=False, coeff_KL = 0)
-
-    if folder == False: 
-        vae_loaded.load_weights(path)
-    else:
-        print(path)
-        latest = tf.train.latest_checkpoint(path)
-        vae_loaded.load_weights(latest)
-
-    return vae_loaded, vae_utils, encoder, decoder, Dkl
-
-
-def load_alpha(path_alpha):
-    return np.load(path_alpha+'alpha.npy')
-
-
-
 ##############   MULTIPROCESSING    ############
-import multiprocessing
-import time
-from tqdm import tqdm, trange
-
 def apply_ntimes(func, n, args, verbose=True, timeout=None):
     """
     Applies `n` times the function `func` on `args` (useful if, eg, `func` is partly random).
