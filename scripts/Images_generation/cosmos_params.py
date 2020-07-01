@@ -42,12 +42,19 @@ for filter_name in filter_names_lsst:
 
 filter_names_all = 'HJYVugrizy'
 
+# Number of exposures
+## Choose between the full surveys or only one single exposure of each
+full_or_single = 'full' # Here I choose the full survey, for one single exposure change to 'single'
+
+if full_or_single == 'full': 
+    N_exposures_lsst = [56, 80, 184, 184, 160, 160] #Over the ten years (https://arxiv.org/pdf/0805.2366.pdf)
+    N_exposures_euclid = 4
+elif full_or_single == 'single':
+    N_exposures_lsst = [1, 1, 1, 1, 1, 1] #Over the ten years (https://arxiv.org/pdf/0805.2366.pdf)
+    N_exposures_euclid = 1
+
 #################### NOISE ###################
 # Poissonian noise according to sky_level
-n_years = 1
-N_exposures_lsst = [56, 80, 184, 184, 160, 160] #Over the ten years (https://arxiv.org/pdf/0805.2366.pdf)
-N_exposures_euclid = 4
-
 sky_level_lsst_u = (2.512 **(26.50-22.95)) * N_exposures_lsst[0] # in e-.s-1.arcsec_2
 sky_level_lsst_g = (2.512 **(28.30-22.24)) * N_exposures_lsst[1] # in e-.s-1.arcsec_2
 sky_level_lsst_r = (2.512 **(28.13-21.20)) * N_exposures_lsst[2] # in e-.s-1.arcsec_2
