@@ -1,18 +1,9 @@
 # Import packages
 
 import numpy as np
-import matplotlib.pyplot as plt
-# import keras
 import sys
 import os
-import logging
 import galsim
-import cmath as cm
-import math
-import random
-import scipy
-from scipy.stats import norm
-from astropy.io import fits
 
 from cosmos_params import *
 
@@ -21,7 +12,7 @@ from photutils.centroids import centroid_com
 
 sys.path.insert(0,'../scripts/tools_for_VAE/')
 from tools_for_VAE import utils
-from images_utils import get_scale_radius, get_data, shift_gal, peak_detection, draw_images
+from images_utils import get_data, shift_gal, peak_detection, draw_images
 
 rng = galsim.BaseDeviate(None)
 

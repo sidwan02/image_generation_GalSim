@@ -1,13 +1,9 @@
 # Import packages
 
 import numpy as np
-import matplotlib.pyplot as plt
 import sys
 import os
-import logging
 import galsim
-import cmath as cm
-import matplotlib.pyplot as plt
 from multiprocess import *
 import pandas as pd
 from tqdm import tqdm, trange
