@@ -28,7 +28,7 @@ isolated_or_blended = str(sys.argv[4]) #isolated blended
 do_peak_detection = str(sys.argv[5]).lower() == 'true'
 N_files = int(sys.argv[6]) # Nb of files to generate
 N_per_file = str(sys.argv[7]) # Number of galaxies per file
-nmax_blend = int(sys.argv[8]) # Maximum number of galaxies on an image
+nmax_blend = int(sys.argv[8]) # Number of galaxies on an image if integer, or interval for sampling if tuple
 assert training_or_test in ['training', 'validation', 'test']
 
 # Fixed parameters:

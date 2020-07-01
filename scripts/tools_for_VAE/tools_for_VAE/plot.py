@@ -25,8 +25,9 @@ def plot_rgb(gal, bands=[5,6,7], ax=None, band_first=True, zoom=1.5, shifts=None
         ax.imshow(gal[:,:,:].transpose(tr)[:,:,bands], extent=(-imsize,imsize,imsize,-imsize), origin='lower left')
     if shifts is not None:
         for (x,y) in shifts:
-            # As a consequence from previous comment, need to put -y here.
-            ax.scatter(x, -y,  marker='+', c='r')
+            if x !=0 and y!=0: # No scatter if there is no shift (i.e. no galaxy)
+                # As a consequence from previous comment, need to put -y here.
+                ax.scatter(x, -y,  marker='+', c='r')
     ax.set_xlim(-imsize/zoom,imsize/zoom)
     ax.set_ylim(-imsize/zoom,imsize/zoom)
     ax.axis('off')
