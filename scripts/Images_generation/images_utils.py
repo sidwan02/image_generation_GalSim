@@ -25,18 +25,6 @@ rng = galsim.BaseDeviate(None)
 
 
 ############ PARAMETER MEASUREMENTS
-def get_scale_radius(gal):
-    """
-    Return the scale radius of the created galaxy
-    
-    Parameter:
-    ---------
-    gal: galaxy from which the scale radius is needed
-    """
-    try:
-        return gal.obj_list[1].original.scale_radius
-    except:
-        return gal.original.scale_radius
 
 def get_data(gal, gal_image, psf_image, param_or_real='param'):
     '''

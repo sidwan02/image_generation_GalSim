@@ -156,39 +156,6 @@ def image_generator_sim(cosmos_cat_dir, training_or_test, isolated_or_blended, u
 
                 galaxy_noiseless[i] = images[idx_closest_to_peak].array.data
                 blend_noisy[i] = blend_img.array.data
-
-                # # get data for the test sample, data are computed in the 'r' filter
-                # if filter_name == 'r':
-                #     # need psf to compute ellipticities
-                #     print('avant psf.drawImage bande r')
-                #     psf_image = PSF[i].drawImage(nx=max_stamp_size, ny=max_stamp_size, scale=pixel_scale[i])
-                #     print('apres psf.drawImage bande r')
-                #     data['redshift'], data['moment_sigma'], data['e1'], data['e2'], data['mag'] = get_data(galaxies[idx_closest_to_peak], images[idx_closest_to_peak], psf_image)
-                #     print('apres getdata bande r')
-
-                #     # Compute data and blendedness
-                #     if nb_blended_gal > 1:
-                #         data['closest_redshift'], data['closest_moment_sigma'], data['closest_e1'], data['closest_e2'], data['closest_mag'] = get_data(galaxies[idx_closest_to_peak_galaxy], images[idx_closest_to_peak_galaxy], psf_image)
-                #         print('apres getdata bande r', i)
-                #         img_central = images[idx_closest_to_peak].array
-                #         img_others = np.zeros_like(img_central)
-                #         for _h, image in enumerate(images):
-                #             if _h!=idx_closest_to_peak:
-                #                 img_others += image.array
-                #         #img_others = np.array([image.array.data for _h, image in enumerate(images) if _h!=idx_closest_to_peak]).sum(axis = 0)
-                #         img_closest_neighbour =images[idx_closest_to_peak_galaxy].array# np.array(images[idx_closest_to_peak_galaxy].array.data)
-                #         data['blendedness_total_lsst'] = utils.compute_blendedness_total(img_central, img_others)
-                #         data['blendedness_closest_lsst'] = utils.compute_blendedness_single(img_central, img_closest_neighbour)
-                #         data['blendedness_aperture_lsst'] = utils.compute_blendedness_aperture(img_central, img_others, data['moment_sigma'])
-                #     else:
-                #         data['closest_redshift'] = np.nan
-                #         data['closest_moment_sigma'] = np.nan
-                #         data['closest_e1'] = np.nan
-                #         data['closest_e2'] = np.nan
-                #         data['closest_mag'] = np.nan
-                #         data['blendedness_total_lsst'] = np.nan
-                #         data['blendedness_closest_lsst'] = np.nan
-                #         data['blendedness_aperture_lsst'] = np.nan
             break
 
         except RuntimeError as e:
@@ -353,10 +320,6 @@ def image_generator_real(cosmos_cat_dir, training_or_test, isolated_or_blended, 
                 galaxies = [gal.shift(-center_arc_x, -center_arc_y) for gal in galaxies]
                 shift[:nb_blended_gal] -= np.array([center_arc_x, center_arc_y])
 
-            # # shift galaxies for centered configuration 'noshift'
-            # for k,gal in enumerate(real_gal_list):
-            #     real_gal_list[k], shift[k] = shift_gal(gal, shift_x0=shift[k,0], shift_y0=shift[k,1], method='noshift')
-         
             # Draw real images
             galaxies_real_psf = [galsim.Convolve([real_gal*coeff_exp[6], PSF_lsst]) for real_gal in real_gal_list]
             images_real, _ = draw_images(galaxies_real_psf, 6, max_stamp_size, 'r', sky_level_pixel[6], real_or_param = 'real')
@@ -389,34 +352,6 @@ def image_generator_real(cosmos_cat_dir, training_or_test, isolated_or_blended, 
                 blend_noisy_real_temp.addNoise(poissonian_noise)
                 blend_noisy_real[i] = blend_noisy_real_temp.array.data
 
-                # # get data for the test sample
-                # if filter_name == 'r':
-                #     # need psf to compute ellipticities
-                #     psf_image = PSF[i].drawImage(nx=max_stamp_size, ny=max_stamp_size, scale=pixel_scale[i])
-                #     data['redshift'], data['moment_sigma'], data['e1'], data['e2'], data['mag'] = get_data(galaxies[idx_closest_to_peak], images[idx_closest_to_peak], psf_image, param_or_real = 'param')#real_gal_list[idx_closest_to_peak_galaxy], images_real
-
-                #     # Compute data and blendedness
-                #     if nb_blended_gal > 1:
-                #         data['closest_redshift'], data['closest_moment_sigma'], data['closest_e1'], data['closest_e2'], data['closest_mag'] = get_data(galaxies[idx_closest_to_peak_galaxy], images[idx_closest_to_peak_galaxy], psf_image, param_or_real = 'param')#real_gal_list[idx_closest_to_peak_galaxy]
-                #         img_central = images[idx_closest_to_peak].array
-                #         img_others = np.zeros_like(img_central)
-                #         for _h, image in enumerate(images):
-                #             if _h!=idx_closest_to_peak:
-                #                 img_others += image.array
-
-                #         img_closest_neighbour =images[idx_closest_to_peak_galaxy].array
-                #         data['blendedness_total_lsst'] = utils.compute_blendedness_total(img_central, img_others)
-                #         data['blendedness_closest_lsst'] = utils.compute_blendedness_single(img_central, img_closest_neighbour)
-                #         data['blendedness_aperture_lsst'] = utils.compute_blendedness_aperture(img_central, img_others, data['moment_sigma'])
-                #     else:
-                #         data['closest_redshift'] = np.nan
-                #         data['closest_moment_sigma'] = np.nan
-                #         data['closest_e1'] = np.nan
-                #         data['closest_e2'] = np.nan
-                #         data['closest_mag'] = np.nan
-                #         data['blendedness_total_lsst'] = np.nan
-                #         data['blendedness_closest_lsst'] = np.nan
-                #         data['blendedness_aperture_lsst'] = np.nan
             break
 
         except RuntimeError as e:
