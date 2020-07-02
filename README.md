@@ -1,12 +1,39 @@
 # Image generation with GalSim 
-
 Here repository to generate stamps of different sizes filled randomly or not with a chosen number of galaxies in LSST and Euclid filters.
 
 The images are generated with GalSim (https://github.com/GalSim-developers/GalSim, doc: http://galsim-developers.github.io/GalSim/_build/html/index.html) from parametric models fitted to real galaxies from the HST COSMOS catalog (which can be found from here: https://github.com/GalSim-developers/GalSim/wiki/RealGalaxy%20Data).
 
 # Installation
-## Installation of required packages with .yml file
+1. Clone the repository
+```
+git clone https://github.com/BastienArcelin/image_generation_GalSim
+cd image_generation_GalSim
+```
+2. Install required packages with conda or miniconda
+```
+cd ressources
+conda env create -f env_img_gen.yml
+source activate img_generation
+```
+3. Install GalSim
+```
+cd path_to_env/name_env/lib/python3.X/site-packages/
+git clone https://github.com/GalSim-developers/GalSim.git
+pip install cython
+pip install eigency
+cd Galsim
+pip install -r requirements.txt
+python setup.py install
+```
+
+# Before starting
+1. You need to download the COSMOS catalog. You can find it here: https://zenodo.org/record/3242143#.Xv2pTvLgq9Y. You can chose the COSMOS_25.2_training_sample.tar.gz (4.4 GB).
+2. And change the path in ```main_generation_cosmos.py ``` at lines 60 and 62 to the path where you just downloaded the catalog.
+3. And finally, change the ```save_dir``` in ```main_generation_cosmos.py ``` at lines 45 and 52 to the directory you want the produced images to be saved.
+
+# List of required packages
 - Photutils (https://photutils.readthedocs.io/en/stable/#)
+- GalSim (https://github.com/GalSim-developers/GalSim)
 - multiprocess (if you want to multiprocess the image generation)
 - pandas
 - pathlib
@@ -15,20 +42,3 @@ The images are generated with GalSim (https://github.com/GalSim-developers/GalSi
 - scipy
 - sys
 - os
-
-You can install et up an environment with these packages using the .yml file that you can find in the folder ```/ressources```.
-
-## GalSim installation
-You also need to install GalSim (https://github.com/GalSim-developers/GalSim).
-
-To do so, follow the steps as described below:
-1. Go to ```path_to_env/name_env/lib/python3.X/site-packages/```
-2. Type ```git clone https://github.com/GalSim-developers/GalSim.git```
-3. Install the required packages for GalSim and GalSim itself. Run the following commands in that order:
-   - ```pip install cython```
-   - ```pip install eigency```
-   - ```cd Galsim```
-   - ```pip install -r requirements.txt```
-   - ```python setup.py install```
-  
-That's it, you should be able to generate galaxies images using this environment. 
