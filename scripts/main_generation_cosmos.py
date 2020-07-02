@@ -12,12 +12,12 @@ import utils
 from images_generator import image_generator_sim, image_generator_real
 
 # The script is used as, eg,
-# >> python main_generation_cosmos.py centered/ simulation training isolated false 10 1000
+# >> python main_generation_cosmos.py test/ training simulation isolated false 10 1000
 # to produce 10 files in the training sample with 1000 images each of isolated galaxy centered on the image with no shift.
 # Before starting the generation, you need to create a directory to store your images which is in save_dir/case/training_or_test/ (See line 47 and 54 for save_dir)
-case = str(sys.argv[1]) # directory. Examples: centered/
-gal_type = str(sys.argv[2]) # choose type of image (parametric model or real image): simulation or real
-training_or_test = str(sys.argv[3]) # this is a directory: training, test or validation
+case = str(sys.argv[1]) # directory. Examples: test/
+training_or_test = str(sys.argv[2]) # this is a directory and a case used for image_generator: training, test or validation
+gal_type = str(sys.argv[3]) # choose type of image (parametric model or real image): simulation or real
 isolated_or_blended = str(sys.argv[4]) #Image of isolated galaxy of blended galaxies: isolated or blended
 do_peak_detection = str(sys.argv[5]).lower() == 'true'
 N_files = int(sys.argv[6]) # Nb of files to generate
@@ -37,17 +37,20 @@ method_shift_others = 'uniform'
 max_dx = 3.2 #in arcseconds, limit to use for uniform shifting: the center of the shifted galaxy will be shifted from the center or from the brightest galaxy from a random number between [-max_dx ; max_dx] arcsecond
 max_r = 2. #in arcseconds, limit to use for annulus shifting: galaxy is shifted in an annulus around the center of the image or of the brightest galaxy which has for minimum radius fwhm_lsst/2 and for maximum radius max_r
 
+# Load data_dir from environment variables
+data_dir = str(os.environ.get('DATAPATH'))
+
 # Method to shift centered galaxy
 if isolated_or_blended == 'isolated':
     # where to save images and data
-    save_dir = '/sps/lsst/users/barcelin/data/test/' + case + training_or_test
+    save_dir = data_dir + case + training_or_test #'/sps/lsst/users/barcelin/data/test/'
     # what to call those files
     root = 'galaxies_isolated_20191024_'
     # Maximum number of galaxies on the image. Here, "isolated" so only 1 galaxy.
     nmax_blend = 1
 elif isolated_or_blended == 'blended':
     # where to save images and data
-    save_dir = '/sps/lsst/users/barcelin/data/test/' + case + training_or_test
+    save_dir = data_dir + case + training_or_test #'/sps/lsst/users/barcelin/data/test/'
     # what to call those files
     root = 'galaxies_blended_20191024_'
     # Maximum number of galaxies on the image. Here, "isolated" so only 1 galaxy.
@@ -55,7 +58,7 @@ elif isolated_or_blended == 'blended':
 else:
     raise NotImplementedError
 # Path to the catalog
-cosmos_cat_dir = '/sps/lsst/users/barcelin/COSMOS_25.2_training_sample' #os.path.join(galsim.meta_data.share_dir,'COSMOS_25.2_training_sample')#
+cosmos_cat_dir = os.path.join(data_dir,'COSMOS_25.2_training_sample')
 # Loading the COSMOS catalog
 cosmos_cat = galsim.COSMOSCatalog('real_galaxy_catalog_25.2.fits', dir=cosmos_cat_dir) 
 # Select galaxies to keep for the test sample
@@ -70,6 +73,12 @@ keys = []
 for i in range (nmax_blend[1]):
     keys = keys + ['redshift_'+str(i), 'moment_sigma_'+str(i), 'e1_'+str(i), 'e2_'+str(i), 'mag_'+str(i)]
 keys = keys + ['nb_blended_gal', 'SNR', 'SNR_peak', 'mag', 'mag_ir', 'closest_x', 'closest_y', 'closest_mag', 'closest_mag_ir',  'idx_closest_to_peak', 'n_peak_detected']
+
+# Create directories if needed
+if not os.path.exists(data_dir+case):
+    os.mkdir(data_dir+case)
+if not os.path.exists(save_dir):
+    os.mkdir(save_dir)
 
 for icat in trange(N_files):
     # Run params
