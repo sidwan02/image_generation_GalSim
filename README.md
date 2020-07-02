@@ -19,7 +19,7 @@ The images are generated with GalSim (https://github.com/GalSim-developers/GalSi
 You can install et up an environment with these packages using the .yml file that you can find in the folder ```/ressources```.
 
 ## GalSim installation
-You also need to install GalSim.
+You also need to install GalSim (https://github.com/GalSim-developers/GalSim).
 
 To do so, follow the steps as described below:
 1. Go to ```path_to_env/name_env/lib/python3.X/site-packages/```
