@@ -13,20 +13,14 @@ The images are generated with GalSim ([github](https://github.com/GalSim-develop
 git clone https://github.com/BastienArcelin/image_generation_GalSim
 cd image_generation_GalSim
 ```
-2. Install required packages with [conda](https://www.anaconda.com/products/individual) or [miniconda](https://docs.conda.io/en/latest/miniconda.html)
+2. Install with [conda](https://www.anaconda.com/products/individual) or [miniconda](https://docs.conda.io/en/latest/miniconda.html)
 ```
 conda env create -f ressources/environment.yml
 conda activate img_generation
 ```
-3. Install GalSim
+3. Install with pip
 ```
-cd path_to_env/name_env/lib/python3.X/site-packages/
-git clone https://github.com/GalSim-developers/GalSim.git
-pip install cython
-pip install eigency
-cd Galsim
-pip install -r requirements.txt
-python setup.py install
+python3 -m pip install -r requirements/requirements.txt
 ```
 
 # Before starting
