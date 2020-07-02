@@ -43,17 +43,17 @@ data_dir = str(os.environ.get('DATAPATH'))
 # Method to shift centered galaxy
 if isolated_or_blended == 'isolated':
     # where to save images and data
-    save_dir = data_dir + case + training_or_test #'/sps/lsst/users/barcelin/data/test/'
+    save_dir = data_dir + case + training_or_test 
     # what to call those files
     root = 'galaxies_isolated_20191024_'
     # Maximum number of galaxies on the image. Here, "isolated" so only 1 galaxy.
     nmax_blend = 1
 elif isolated_or_blended == 'blended':
     # where to save images and data
-    save_dir = data_dir + case + training_or_test #'/sps/lsst/users/barcelin/data/test/'
+    save_dir = data_dir + case + training_or_test 
     # what to call those files
     root = 'galaxies_blended_20191024_'
-    # Maximum number of galaxies on the image. Here, "isolated" so only 1 galaxy.
+    # Maximum number of galaxies on the image.
     nmax_blend = nmax_blend
 else:
     raise NotImplementedError
