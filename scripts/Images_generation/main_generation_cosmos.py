@@ -8,29 +8,29 @@ from multiprocess import *
 import pandas as pd
 from tqdm import tqdm, trange
 
-sys.path.insert(0,'../scripts/tools_generation/')
+sys.path.insert(0,'../../scripts/tools_generation/')
 import tools_generation
 from tools_generation import utils
 
 from images_generator import image_generator_sim, image_generator_real
 
 # The script is used as, eg,
-# >> python main_blended_generation_cosmos.py centered/ training isolated false 10 1000 1
+# >> python main_generation_cosmos.py centered/ simulation training isolated false 10 1000
 # to produce 10 files in the training sample with 1000 images each of isolated galaxy centered on the image with no shift.
-case = str(sys.argv[1]) # centered/ miscentered_0.1/ miscentered_peak/ 
+case = str(sys.argv[1]) # directory. Examples: centered/
 gal_type = str(sys.argv[2]) #simulation or real/
-training_or_test = str(sys.argv[3]) # training test validation
+training_or_test = str(sys.argv[3]) # this is a directory . Can be 'training', 'test' or 'validation'. 
 isolated_or_blended = str(sys.argv[4]) #isolated blended
 do_peak_detection = str(sys.argv[5]).lower() == 'true'
 N_files = int(sys.argv[6]) # Nb of files to generate
-N_per_file = str(sys.argv[7]) # Number of galaxies per file
-nmax_blend = int(sys.argv[8]) # Number of galaxies on an image if integer, or interval for sampling if tuple
+N_per_file = int(sys.argv[7]) # Number of galaxies per file
 assert training_or_test in ['training', 'validation', 'test']
 
 # Fixed parameters:
 max_try = 100 # maximum number of try before leaving the function (to avoir infinite loop)
 mag_cut = 27.5 # cut in magnitude to select galaxies below this magnitude
 max_stamp_size = 64 # Size of patch to generate
+nmax_blend = (2,20) # Number of galaxies on an image if integer, or interval for sampling if tuple
 center_brightest = True # Center the brightest galaxy (i.e. the galaxy with the lowest magnitude)
 # If center_brightest = False : choose with method to use to shift the brightest
 method_shift_brightest = 'noshift'
@@ -42,14 +42,14 @@ max_r = 2. #in arcseconds, limit to use for annulus shifting: galaxy is shifted 
 # Method to shift centered galaxy
 if isolated_or_blended == 'isolated':
     # where to save images and data
-    save_dir = '/sps/lsst/users/barcelin/data/isolated_galaxies/' + case + training_or_test
+    save_dir = '/sps/lsst/users/barcelin/data/test/' + case + training_or_test
     # what to call those files
     root = 'galaxies_isolated_20191024_'
     # Maximum number of galaxies on the image. Here, "isolated" so only 1 galaxy.
     nmax_blend = 1
 elif isolated_or_blended == 'blended':
     # where to save images and data
-    save_dir = '/sps/lsst/users/barcelin/data/blended_galaxies/' + case + training_or_test
+    save_dir = '/sps/lsst/users/barcelin/data/test/' + case + training_or_test
     # what to call those files
     root = 'galaxies_blended_20191024_'
     # Maximum number of galaxies on the image. Here, "isolated" so only 1 galaxy.
@@ -68,7 +68,10 @@ else:
     used_idx = np.arange(5000,cosmos_cat.nobjects)
 
 # keys for data objects
-keys = ['nb_blended_gal', 'SNR', 'SNR_peak', 'redshift', 'moment_sigma', 'e1', 'e2', 'mag', 'mag_ir', 'closest_x', 'closest_y', 'closest_redshift', 'closest_moment_sigma', 'closest_e1', 'closest_e2', 'closest_mag', 'closest_mag_ir', 'blendedness_total_lsst', 'blendedness_closest_lsst', 'blendedness_aperture_lsst', 'idx_closest_to_peak', 'n_peak_detected']
+keys = []
+for i in range (nmax_blend[1]):
+    keys = keys + ['redshift_'+str(i), 'moment_sigma_'+str(i), 'e1_'+str(i), 'e2_'+str(i), 'mag_'+str(i)]
+keys = keys + ['nb_blended_gal', 'SNR', 'SNR_peak', 'mag', 'mag_ir', 'closest_x', 'closest_y', 'closest_mag', 'closest_mag_ir',  'idx_closest_to_peak', 'n_peak_detected']
 
 for icat in trange(N_files):
     # Run params
@@ -76,15 +79,17 @@ for icat in trange(N_files):
 
     galaxies = []
     shifts = []
-    if training_or_test == 'test':
+
+    #if training_or_test == 'test':
         # If test, create Pandas DataFrame to return properties of test galaxies
-        df = pd.DataFrame(index=np.arange(N_per_file), columns=keys)
+    # Here we save data for all datasets
+    df = pd.DataFrame(index=np.arange(N_per_file), columns=keys)
     
     # Depending of type of galaxies you wand (simulation or real galaxies) use the correct generating function
     if gal_type == 'simulation':
-        res = utils.apply_ntimes(image_generator_sim, N_per_file, (cosmos_cat_dir, training_or_test, isolated_or_blended, save_dir, used_idx, nmax_blend, max_try, mag_cut, method_shift_brightest, method_shift_others, max_dx, max_r, do_peak_detection, center_brightest, max_stamp_size))
+        res = utils.apply_ntimes(image_generator_sim, N_per_file, (cosmos_cat_dir, training_or_test, isolated_or_blended, used_idx, nmax_blend, max_try, mag_cut, method_shift_brightest, method_shift_others, max_dx, max_r, do_peak_detection, center_brightest, max_stamp_size))
     elif gal_type == 'real':
-        res = utils.apply_ntimes(image_generator_real, N_per_file, (cosmos_cat_dir, training_or_test, isolated_or_blended, save_dir, used_idx, nmax_blend, max_try, mag_cut, method_shift_brightest, method_shift_others, max_dx, max_r, do_peak_detection, center_brightest, max_stamp_size))
+        res = utils.apply_ntimes(image_generator_real, N_per_file, (cosmos_cat_dir, training_or_test, isolated_or_blended, used_idx, nmax_blend, max_try, mag_cut, method_shift_brightest, method_shift_others, max_dx, max_r, do_peak_detection, center_brightest, max_stamp_size))
 
     
     for i in trange(N_per_file):
