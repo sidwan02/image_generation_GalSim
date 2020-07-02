@@ -82,8 +82,8 @@ sky_level_nir_H = (2.512 **(24.92-22.35*coeff_noise_h)) * N_exposures_euclid # i
 sky_level_vis = (2.512 **(25.58-22.35)) * N_exposures_euclid # in e-.s-1.arcsec_2
 sky_level_pixel_nir = [ sky_level_nir_Y * 450. * pixel_scale_euclid_nir**2,
                         sky_level_nir_J * 450. * pixel_scale_euclid_nir**2,
-                        sky_level_nir_H * 450. * pixel_scale_euclid_nir**2] # in e-/pixel/1800s
-sky_level_pixel_vis = sky_level_vis * 450. * pixel_scale_euclid_vis**2 # in e-/pixel/1800s
+                        sky_level_nir_H * 450. * pixel_scale_euclid_nir**2] # in e-/pixel/450s
+sky_level_pixel_vis = sky_level_vis * 450. * pixel_scale_euclid_vis**2 # in e-/pixel/450s
 
 sky_level_pixel = sky_level_pixel_nir + [sky_level_pixel_vis] + sky_level_pixel_lsst
 
