@@ -15,8 +15,7 @@ cd image_generation_GalSim
 ```
 2. Install required packages with [conda](https://www.anaconda.com/products/individual) or [miniconda](https://docs.conda.io/en/latest/miniconda.html)
 ```
-cd ressources
-conda env create -f env_img_gen.yml
+conda env create -f ressources/environment.yml
 conda activate img_generation
 ```
 3. Install GalSim
