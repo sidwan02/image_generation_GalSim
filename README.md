@@ -44,12 +44,9 @@ You can find a notebook briefly describing the generation process and how to use
 - [GalSim](https://github.com/GalSim-developers/GalSim)
 - multiprocess (if you want to multiprocess the image generation)
 - pandas
-- pathlib
 - matplotlib
 - numpy
 - scipy
-- sys
-- os
 
 # Author
 Bastien Arcelin - arcelin *at* apc.in2p3.fr
