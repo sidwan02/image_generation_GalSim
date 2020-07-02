@@ -7,9 +7,6 @@ import galsim
 import pandas as pd
 from tqdm import tqdm, trange
 
-#sys.path.insert(0,'../../scripts/tools_generation/')
-#import tools_generation
-#from tools_generation 
 import utils
 
 from images_generator import image_generator_sim, image_generator_real
@@ -58,7 +55,7 @@ elif isolated_or_blended == 'blended':
 else:
     raise NotImplementedError
 # Path to the catalog
-cosmos_cat_dir = '/sps/lsst/users/barcelin/COSMOS_25.2_training_sample'
+cosmos_cat_dir = '/sps/lsst/users/barcelin/COSMOS_25.2_training_sample' #os.path.join(galsim.meta_data.share_dir,'COSMOS_25.2_training_sample')#
 # Loading the COSMOS catalog
 cosmos_cat = galsim.COSMOSCatalog('real_galaxy_catalog_25.2.fits', dir=cosmos_cat_dir) 
 # Select galaxies to keep for the test sample

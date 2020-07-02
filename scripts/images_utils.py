@@ -10,8 +10,7 @@ from cosmos_params import *
 import photutils
 from photutils.centroids import centroid_com
 
-#sys.path.insert(0,'../tools_generation/')
-import utils #from tools_generation #
+import utils 
 
 rng = galsim.BaseDeviate(None)
 
