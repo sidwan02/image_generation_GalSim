@@ -4,7 +4,6 @@ import numpy as np
 import sys
 import os
 import galsim
-from multiprocess import *
 import pandas as pd
 from tqdm import tqdm, trange
 

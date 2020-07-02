@@ -46,7 +46,6 @@ def image_generator_sim(cosmos_cat_dir, training_or_test, isolated_or_blended, u
         try:
             ud = galsim.UniformDeviate()
 
-            #nb_blended_gal = np.random.randint(nmax_blend)+1
             if np.shape(nmax_blend) == ():
                 nb_blended_gal = nmax_blend
             else:    
