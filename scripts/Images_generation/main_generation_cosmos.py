@@ -17,10 +17,11 @@ from images_generator import image_generator_sim, image_generator_real
 # The script is used as, eg,
 # >> python main_generation_cosmos.py centered/ simulation training isolated false 10 1000
 # to produce 10 files in the training sample with 1000 images each of isolated galaxy centered on the image with no shift.
+# Before starting the generation, you need to create a directory to store your images which is in save_dir/case/training_or_test/ (See line 47 and 54 for save_dir)
 case = str(sys.argv[1]) # directory. Examples: centered/
-gal_type = str(sys.argv[2]) #simulation or real/
-training_or_test = str(sys.argv[3]) # this is a directory . Can be 'training', 'test' or 'validation'. 
-isolated_or_blended = str(sys.argv[4]) #isolated blended
+gal_type = str(sys.argv[2]) # choose type of image (parametric model or real image): simulation or real
+training_or_test = str(sys.argv[3]) # this is a directory: training, test or validation
+isolated_or_blended = str(sys.argv[4]) #Image of isolated galaxy of blended galaxies: isolated or blended
 do_peak_detection = str(sys.argv[5]).lower() == 'true'
 N_files = int(sys.argv[6]) # Nb of files to generate
 N_per_file = int(sys.argv[7]) # Number of galaxies per file
