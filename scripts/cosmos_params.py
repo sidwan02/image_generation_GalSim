@@ -16,8 +16,8 @@ pixel_scale = [pixel_scale_euclid_nir]*3 + [pixel_scale_euclid_vis] + [pixel_sca
 
 #################### FILTERS ###################
 filters = {}
-euclid_filters_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)), '../../data/EUCLID_Filters/')
-lsst_filters_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)), '../../data/share_galsim/bandpasses')
+euclid_filters_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)), '../data/EUCLID_Filters/')
+lsst_filters_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)), '../data/share_galsim/bandpasses')
 
 # read in the Euclid NIR filters
 filter_names_euclid_nir = 'HJY'
