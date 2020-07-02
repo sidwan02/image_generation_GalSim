@@ -9,7 +9,7 @@ The images are generated with GalSim (https://github.com/GalSim-developers/GalSi
 git clone https://github.com/BastienArcelin/image_generation_GalSim
 cd image_generation_GalSim
 ```
-2. Install required packages with conda or miniconda
+2. Install required packages with [conda](https://www.anaconda.com/products/individual) or [miniconda](https://docs.conda.io/en/latest/miniconda.html)
 ```
 cd ressources
 conda env create -f env_img_gen.yml
