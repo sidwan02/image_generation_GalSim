@@ -25,7 +25,7 @@ python3 -m pip install -r ressources/requirements.txt
 ```
 
 ## Before starting
-1. Add a ```DATAPATH``` environment variable in the shell you are running which points to the directory where you want your data to be stored.
+1. Add a ```DATAPATH``` environment variable, in the shell you are running, which points to the directory where you want your data to be stored.
 2. You need to download the COSMOS catalog. You can find it [here](https://zenodo.org/record/3242143#.Xv2pTvLgq9Y). You can chose the ```COSMOS_25.2_training_sample.tar.gz``` (4.4 GB).
 3. Save this file in the directory chosen for storing data (i.e. at ```DATAPATH```).
 
