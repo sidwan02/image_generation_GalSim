@@ -1,11 +1,11 @@
 # Image generation with GalSim 
 
-Here repository to generate stamps filled with galaxies in LSST and Euclid filters choosing the number and position of the galaxies.
+Here repository to generate stamps of different sizes filled randomly or not with a chosen number of galaxies in LSST and Euclid filters.
 
 The images are generated with GalSim (https://github.com/GalSim-developers/GalSim, doc: http://galsim-developers.github.io/GalSim/_build/html/index.html) from parametric models fitted to real galaxies from the HST COSMOS catalog (which can be found from here: https://github.com/GalSim-developers/GalSim/wiki/RealGalaxy%20Data).
 
-# Required packages
-## Installation with .yml file
+# Installation
+## Installation of required packages with .yml file
 - Photutils (https://photutils.readthedocs.io/en/stable/#)
 - multiprocess (if you want to multiprocess the image generation)
 - pandas
