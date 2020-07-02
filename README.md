@@ -17,7 +17,7 @@ cd image_generation_GalSim
 ```
 cd ressources
 conda env create -f env_img_gen.yml
-source activate img_generation
+conda activate img_generation
 ```
 3. Install GalSim
 ```
