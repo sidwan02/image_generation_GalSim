@@ -1,0 +1,9 @@
+scipy
+numpy
+jupyter
+matplotlib
+astropy
+photutils
+pandas
+tqdm
+galsim
