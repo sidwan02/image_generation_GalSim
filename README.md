@@ -1,6 +1,7 @@
 # Image generation with GalSim 
 Here repository to generate stamps of different sizes filled randomly or not with a chosen number of galaxies in LSST and Euclid filters.
 
+
 The images are generated with GalSim (https://github.com/GalSim-developers/GalSim, doc: http://galsim-developers.github.io/GalSim/_build/html/index.html) from parametric models fitted to real galaxies from the HST COSMOS catalog (which can be found from here: https://github.com/GalSim-developers/GalSim/wiki/RealGalaxy%20Data).
 
 # Installation
@@ -32,6 +33,9 @@ python setup.py install
 3. Create a directory where you want to save your data. It needs to have the structure ```save_dir/case/training_or_test```. ```case``` and ```training_or_test``` are parameters to enter when launching the generation.
 4. And finally, change the paths of ```save_dir``` in ```main_generation_cosmos.py ``` at lines 46 and 53 to the directory you want the produced images to be saved.
 
+# Notebook
+You can find a notebook briefly describing the generation process and how to use the functions in ```image_generator.py``` can be found [here](https://github.com/BastienArcelin/image_generation_GalSim/tree/master/notebooks)
+
 # List of required packages
 - Photutils (https://photutils.readthedocs.io/en/stable/#)
 - GalSim (https://github.com/GalSim-developers/GalSim)
@@ -43,3 +47,7 @@ python setup.py install
 - scipy
 - sys
 - os
+
+# Author
+Bastien Arcelin
+arcelin *at* apc.in2p3.fr
