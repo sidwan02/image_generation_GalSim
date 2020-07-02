@@ -56,10 +56,10 @@ elif isolated_or_blended == 'blended':
     nmax_blend = nmax_blend
 else:
     raise NotImplementedError
-# Loading the COSMOS catalog
-cosmos_cat = galsim.COSMOSCatalog('real_galaxy_catalog_25.2.fits', dir='/sps/lsst/users/barcelin/COSMOS_25.2_training_sample') #dir=os.path.join(galsim.meta_data.share_dir,'COSMOS_25.2_training_sample'))#
 # Path to the catalog
 cosmos_cat_dir = '/sps/lsst/users/barcelin/COSMOS_25.2_training_sample'
+# Loading the COSMOS catalog
+cosmos_cat = galsim.COSMOSCatalog('real_galaxy_catalog_25.2.fits', dir=cosmos_cat_dir) 
 # Select galaxies to keep for the test sample
 if training_or_test == 'test':
     used_idx = np.arange(5000)
