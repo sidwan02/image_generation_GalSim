@@ -27,9 +27,9 @@ python setup.py install
 ```
 
 # Before starting
-1. You need to download the COSMOS catalog. You can find it here: https://zenodo.org/record/3242143#.Xv2pTvLgq9Y. You can chose the COSMOS_25.2_training_sample.tar.gz (4.4 GB).
-2. And change the path in ```main_generation_cosmos.py ``` at lines 60 and 62 to the path where you just downloaded the catalog.
-3. And finally, change the ```save_dir``` in ```main_generation_cosmos.py ``` at lines 45 and 52 to the directory you want the produced images to be saved.
+1. You need to download the COSMOS catalog. You can find it here: https://zenodo.org/record/3242143#.Xv2pTvLgq9Y. You can chose the ```COSMOS_25.2_training_sample.tar.gz``` (4.4 GB).
+2. Change the path of ```cosmos_cat_dir``` in ```main_generation_cosmos.py ``` at lines 60 to the path where you just downloaded the catalog.
+3. And finally, change the paths of ```save_dir``` in ```main_generation_cosmos.py ``` at lines 45 and 52 to the directory you want the produced images to be saved.
 
 # List of required packages
 - Photutils (https://photutils.readthedocs.io/en/stable/#)
