@@ -235,7 +235,7 @@ def image_generator_real(cosmos_cat_dir, training_or_test, isolated_or_blended, 
                     
                 # Take the real galaxy image only if parametric galaxy is actually created
                 if  len(galaxies) == (len(real_gal_list)+1):
-                    bp_file = os.path.join(galsim.meta_data.share_dir, 'wfc_F814W.dat.gz')
+                    bp_file = os.path.join(os.path.join(os.path.dirname(os.path.realpath(__file__)), '../data/share_galsim/'), 'wfc_F814W.dat.gz')
                     bandpass = galsim.Bandpass(bp_file, wave_type='ang').thin().withZeropoint(25.94)
                     real_gal = cosmos_cat.makeGalaxy(idx, gal_type='real',
                                                     noise_pad_size=max_stamp_size*pixel_scale_lsst)
