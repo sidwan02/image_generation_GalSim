@@ -38,7 +38,7 @@ max_dx = 3.2 #in arcseconds, limit to use for uniform shifting: the center of th
 max_r = 2. #in arcseconds, limit to use for annulus shifting: galaxy is shifted in an annulus around the center of the image or of the brightest galaxy which has for minimum radius fwhm_lsst/2 and for maximum radius max_r
 
 # Load data_dir from environment variables
-data_dir = str(os.environ.get('DATAPATH'))
+data_dir = str(os.environ.get('IMGEN_DATA'))
 
 # Method to shift centered galaxy
 if isolated_or_blended == 'isolated':
