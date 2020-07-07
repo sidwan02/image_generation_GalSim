@@ -6,4 +6,5 @@ astropy
 photutils
 pandas
 tqdm
-galsim
+cython
+eigency
