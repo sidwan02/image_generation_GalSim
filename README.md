@@ -20,9 +20,15 @@ conda env create -f ressources/environment.yml
 conda activate img_generation
 ```
 - with pip
-```
-python3 -m pip install -r ressources/requirements.txt
-```
+  - first step: install most of the required packages
+  ```
+  python3 -m pip install -r ressources/requirements.txt
+  ```
+  - second step: install fftw3 following the instructions presented [here](https://galsim-developers.github.io/GalSim/_build/html/install_pip.html)
+  - third step: install GalSim
+  ```
+  pip install galsim
+  ```
 
 ## Before starting
 1. Add a ```IMGEN_DATA``` environment variable, in the shell you are running, which points to the directory where you want your data to be stored.
