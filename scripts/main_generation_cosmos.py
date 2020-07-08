@@ -70,8 +70,12 @@ else:
 
 # keys for data objects
 keys = []
-for i in range (nmax_blend[1]):
-    keys = keys + ['redshift_'+str(i), 'moment_sigma_'+str(i), 'e1_'+str(i), 'e2_'+str(i), 'mag_'+str(i)]
+if isolated_or_blended=='isolated':
+    keys = ['redshift_0', 'moment_sigma_0', 'e1_0', 'e2_0', 'mag_0']
+elif isolated_or_blended=='blended':
+    for i in range (nmax_blend[1]):
+        keys = keys + ['redshift_'+str(i), 'moment_sigma_'+str(i), 'e1_'+str(i), 'e2_'+str(i), 'mag_'+str(i)]
+
 keys = keys + ['nb_blended_gal', 'SNR', 'SNR_peak', 'mag', 'mag_ir', 'closest_x', 'closest_y', 'closest_mag', 'closest_mag_ir',  'idx_closest_to_peak', 'n_peak_detected']
 
 # Create directories if needed
