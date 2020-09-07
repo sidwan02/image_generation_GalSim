@@ -6,6 +6,7 @@ import galsim
 import scipy
 
 from cosmos_params import *
+from astropy.io import fits
 
 import photutils
 from photutils.centroids import centroid_com
@@ -16,6 +17,38 @@ rng = galsim.BaseDeviate(None)
 
 
 ############ PARAMETER MEASUREMENTS
+def get_fit_data(cosmos_cat_dir,idx, param_or_real='param'):
+    '''
+    Return galaxy ellipticities and weight computed from the fitted parametric model
+    USE ONLY FOR PARAMETRIC MODELS
+
+    Parameters:
+    ----------
+    cosmo_cat_dir: directory of catalog
+    idx: index of the galaxy to consider
+    '''
+    if param_or_real == 'param':
+        ## Import catalog
+        fitted_catalog = fits.open(cosmos_cat_dir+'/real_galaxy_catalog_25.2_fits.fits')
+        ## Check which fit as been prefered (SERSIC or BULGE+DISK)
+        sersicfit = fitted_catalog[1].data['SERSICFIT'][idx]
+        bulgefit = fitted_catalog[1].data['BULGEFIT'][idx]
+        meandev_sersicfit = fitted_catalog[1].data['FIT_MAD_S'][idx]
+        meandev_bulgefit = fitted_catalog[1].data['FIT_MAD_B'][idx]
+        if meandev_bulgefit >= meandev_sersicfit :
+            ## Compute ellipticities as function of fit prefered
+            e1_fit = ( (1-sersicfit[3])/(1+sersicfit[3]) )*np.cos(2*sersicfit[7])
+            e2_fit = ( (1-sersicfit[3])/(1+sersicfit[3]) )*np.sin(2*sersicfit[7])
+            ## Add weight as a function of deviation of the fit from real image
+            weight_fit = 1/meandev_sersicfit
+        else :
+            e1_fit = ( (1-bulgefit[3])/(1+bulgefit[3]) )*np.cos(2*bulgefit[7])
+            e2_fit = ( (1-bulgefit[3])/(1+bulgefit[3]) )*np.sin(2*bulgefit[7])
+            weight_fit = 1/meandev_bulgefit
+        return [e1_fit, e2_fit, weight_fit]
+    else:
+        return [np.nan, np.nan, np.nan]
+
 
 def get_data(gal, gal_image, psf_image, param_or_real='param'):
     '''

@@ -11,7 +11,7 @@ import photutils
 from photutils.centroids import centroid_com
 
 import utils
-from images_utils import get_data, shift_gal, peak_detection, draw_images
+from images_utils import get_fit_data, get_data, shift_gal, peak_detection, draw_images
 
 rng = galsim.BaseDeviate(None)
 
@@ -63,6 +63,8 @@ def image_generator_sim(cosmos_cat_dir, training_or_test, isolated_or_blended, u
                     idx = np.random.randint(cosmos_cat.nobject)
                 # Generate galaxy
                 gal = cosmos_cat.makeGalaxy(idx, gal_type='parametric', chromatic=True, noise_pad_size=0)
+                # Get data from fit (parametric model)
+                data['e1_fit_'+str(j)], data['e2_fit_'+str(j)], data['weight_fit_'+str(j)] = get_fit_data(cosmos_cat_dir, idx)
                 # Compute the magnitude of the galaxy
                 _mag_temp = gal.calculateMagnitude(filters['r'].withZeropoint(28.13))
                 # Magnitude cut
@@ -85,10 +87,10 @@ def image_generator_sim(cosmos_cat_dir, training_or_test, isolated_or_blended, u
                 images.append(temp_img)
 
             for z in range (nb_blended_gal):
-                data['redshift_'+str(z)], data['moment_sigma_'+str(z)], data['e1_'+str(z)], data['e2_'+str(z)], data['mag_'+str(z)] = get_data(galaxies[z], images[z], psf_image)
+                data['redshift_'+str(z)], data['moment_sigma_'+str(z)], data['e1_ksb_'+str(z)], data['e2_ksb_'+str(z)], data['mag_'+str(z)] = get_data(galaxies[z], images[z], psf_image)
             if nb_blended_gal < nmax_blend:
                 for z in range (nb_blended_gal,nmax_blend):
-                    data['redshift_'+str(z)], data['moment_sigma_'+str(z)], data['e1_'+str(z)], data['e2_'+str(z)], data['mag_'+str(z)] = 10., 10., 10., 10., 10.
+                    data['redshift_'+str(z)], data['moment_sigma_'+str(z)], data['e1_ksb_'+str(z)], data['e2_ksb_'+str(z)], data['mag_'+str(z)] = 10., 10., 10., 10., 10.
 
 
             # Optionally, find the brightest and put it first in the list
@@ -259,7 +261,7 @@ def image_generator_real(cosmos_cat_dir, training_or_test, isolated_or_blended, 
                 data['e2_'+str(z)] = res[3]
             if nb_blended_gal < nmax_blend:
                 for z in range (nb_blended_gal,nmax_blend):
-                    data['redshift_'+str(z)], data['moment_sigma_'+str(z)], data['e1_'+str(z)], data['e2_'+str(z)], data['mag_'+str(z)] = 10., 10., 10., 10., 10.
+                    data['redshift_'+str(z)], data['moment_sigma_'+str(z)], data['e1_ksb_'+str(z)], data['e2_ksb_'+str(z)], data['mag_'+str(z)] = 10., 10., 10., 10., 10.
 
             # Optionally, find the brightest and put it first in the list
             if center_brightest:
