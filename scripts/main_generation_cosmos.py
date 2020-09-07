@@ -29,7 +29,7 @@ max_try = 100 # maximum number of try before leaving the function (to avoir infi
 mag_cut = 27.5 # cut in magnitude to select galaxies below this magnitude
 max_stamp_size = 64 # Size of patch to generate
 nmax_blend = (2,20) # Number of galaxies on an image if integer, or interval for sampling if tuple
-center_brightest = True # Center the brightest galaxy (i.e. the galaxy with the lowest magnitude)
+center_brightest = False # Center the brightest galaxy (i.e. the galaxy with the lowest magnitude)
 # If center_brightest = False : choose with method to use to shift the brightest
 method_shift_brightest = 'noshift'
 # And then you need to choose the method to shift the other galaxies as a function of the position of the brightest on the image
@@ -73,8 +73,12 @@ keys = []
 if isolated_or_blended=='isolated':
     keys = ['redshift_0', 'moment_sigma_0', 'e1_ksb_0', 'e2_ksb_0','e1_fit_0', 'e2_fit_0', 'mag_0', 'weight_fit_0']
 elif isolated_or_blended=='blended':
-    for i in range (nmax_blend[1]):
-        keys = keys + ['redshift_'+str(i), 'moment_sigma_'+str(i), 'e1_ksb_'+str(i), 'e2_ksb_'+str(i),'e1_fit_'+str(i), 'e2_fit_'+str(i), 'mag_'+str(i), 'weight_fit_'+str(i)]
+    if isinstance(nmax_blend, int):
+            for i in range (nmax_blend):
+                keys = keys + ['redshift_'+str(i), 'moment_sigma_'+str(i), 'e1_ksb_'+str(i), 'e2_ksb_'+str(i),'e1_fit_'+str(i), 'e2_fit_'+str(i), 'mag_'+str(i), 'weight_fit_'+str(i)]
+    else:
+        for i in range (nmax_blend[1]):
+            keys = keys + ['redshift_'+str(i), 'moment_sigma_'+str(i), 'e1_ksb_'+str(i), 'e2_ksb_'+str(i),'e1_fit_'+str(i), 'e2_fit_'+str(i), 'mag_'+str(i), 'weight_fit_'+str(i)]
 
 keys = keys + ['nb_blended_gal', 'SNR', 'SNR_peak', 'mag', 'mag_ir', 'closest_x', 'closest_y', 'closest_mag', 'closest_mag_ir',  'idx_closest_to_peak', 'n_peak_detected']
 

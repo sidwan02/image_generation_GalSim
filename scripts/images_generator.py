@@ -87,6 +87,8 @@ def image_generator_sim(cosmos_cat_dir,
                     mag.append(_mag_temp)
                     mag_ir.append(gal.calculateMagnitude(filters['H'].withZeropoint(24.92-22.35*coeff_noise_h)))
                     j += 1
+            for i in range (nmax_blend-nb_blended_gal):
+                data['e1_fit_'+str(nb_blended_gal+i)], data['e2_fit_'+str(nb_blended_gal+i)], data['weight_fit_'+str(nb_blended_gal+i)] = [np.nan, np.nan, np.nan]
 
 
             # Compute ellipticities and magnitude for galaxies in r band before the shifting.
