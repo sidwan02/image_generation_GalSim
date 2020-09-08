@@ -30,8 +30,14 @@ def SNR_peak(gal_noiseless, sky_background_pixel, band=6, snr_min=2):
     snr_min: minimum snr to keep the image
     '''
     # Make sure images have shape [nband, nx, ny] and sky_background_pixel has length nband
-    assert len(sky_background_pixel) == gal_noiseless.shape[1]
-    assert gal_noiseless.shape[2] == gal_noiseless.shape[3]
+    if len(gal_noiseless.shape)==4:
+        assert len(sky_background_pixel) == gal_noiseless.shape[1]
+        assert gal_noiseless.shape[2] == gal_noiseless.shape[3]
+        signal = gal_noiseless[0][band]
+    elif len(gal_noiseless.shape)==3:
+        assert len(sky_background_pixel) == gal_noiseless.shape[0]
+        assert gal_noiseless.shape[1] == gal_noiseless.shape[2]
+        signal = gal_noiseless[band]
     
     snr = np.max(gal_noiseless[0][band])/sky_background_pixel[band]
     return (snr>snr_min), snr
@@ -49,10 +55,15 @@ def SNR(gal_noiseless, sky_background_pixel, band=6, snr_min=5):
     snr_min: minimum snr to keep the image
     '''
     # Make sure images have shape [nband, nx, ny] and sky_background_pixel has length nband
-    assert len(sky_background_pixel) == gal_noiseless.shape[1]
-    assert gal_noiseless.shape[2] == gal_noiseless.shape[3]
+    if len(gal_noiseless.shape)==4:
+        assert len(sky_background_pixel) == gal_noiseless.shape[1]
+        assert gal_noiseless.shape[2] == gal_noiseless.shape[3]
+        signal = gal_noiseless[0][band]
+    elif len(gal_noiseless.shape)==3:
+        assert len(sky_background_pixel) == gal_noiseless.shape[0]
+        assert gal_noiseless.shape[1] == gal_noiseless.shape[2]
+        signal = gal_noiseless[band]
     
-    signal = gal_noiseless[0][band]
     variance = signal+sky_background_pixel[band] # for a Poisson process, variance=mean
     snr = np.sqrt(np.sum(signal**2/variance))
     return (snr>snr_min), snr
