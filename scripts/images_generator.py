@@ -394,9 +394,6 @@ def image_generator_real(cosmos_cat_dir,
                                 galaxy_noiseless_real[m][i] = images_real_array[m-1].data
                             elif m > idx_closest_to_peak:
                                 galaxy_noiseless_real[m][i] = images_real_array[m].data
-                    #galaxy_noiseless_real[0][i] = images_real_array[idx_closest_to_peak].data
-                    #for m in range (nb_blended_gal-1):
-                    #    galaxy_noiseless_real[1+m][i] = images_real_array[m].data
                 else:
                     galaxy_noiseless_real[i] = images_real_array[idx_closest_to_peak].data
                 for image_real_array in images_real_array:
