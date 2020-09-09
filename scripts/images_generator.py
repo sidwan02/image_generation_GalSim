@@ -165,8 +165,12 @@ def image_generator_sim(cosmos_cat_dir,
 
                 if training_or_test=='test':
                     galaxy_noiseless[0][i] = images[idx_closest_to_peak].array.data
-                    for m in range (nb_blended_gal-1):
-                        galaxy_noiseless[1+m][i] = images[m].array.data
+                    if isolated_or_blended == 'blended':
+                        for m in range (1,nb_blended_gal):
+                            if m<=idx_closest_to_peak:
+                                galaxy_noiseless[m][i] = images[m-1].array.data
+                            elif m > idx_closest_to_peak:
+                                galaxy_noiseless[m][i] = images[m].array.data
                 else:
                     galaxy_noiseless[i] = images[idx_closest_to_peak].array.data
                 blend_noisy[i] = blend_img.array.data
@@ -201,7 +205,20 @@ def image_generator_sim(cosmos_cat_dir,
 
 
 # CASE OF REAL IMAGES
-def image_generator_real(cosmos_cat_dir, training_or_test, isolated_or_blended, used_idx=None, nmax_blend=4, max_try=3, mag_cut=28., method_first_shift='noshift', method_others_shift='uniform', max_dx = 3.2, max_r = 2., do_peak_detection=True, center_brightest = True, max_stamp_size= 64):
+def image_generator_real(cosmos_cat_dir, 
+                        training_or_test, 
+                        isolated_or_blended, 
+                        used_idx=None, 
+                        nmax_blend=4, 
+                        max_try=3, 
+                        mag_cut=28., 
+                        method_first_shift='noshift', 
+                        method_others_shift='uniform', 
+                        max_dx = 3.2, 
+                        max_r = 2., 
+                        do_peak_detection=True, 
+                        center_brightest = True, 
+                        max_stamp_size= 64):
     """
     Return numpy arrays: noiseless and noisy image of single galaxy and of blended galaxies as well as the pandaframe including data about the image and the shifts in the test sample generation configuration
     
@@ -351,9 +368,12 @@ def image_generator_real(cosmos_cat_dir, training_or_test, isolated_or_blended, 
                     n_peak = 1
                 
                 if training_or_test=='test':
-                    galaxy_noiseless[0][i] = images[idx_closest_to_peak].array.data
-                    for m in range (nb_blended_gal-1):
-                        galaxy_noiseless[1+m][i] = images[m].array.data
+                    if isolated_or_blended == 'blended':
+                        for m in range (1,nb_blended_gal):
+                            if m<=idx_closest_to_peak:
+                                galaxy_noiseless[m][i] = images[m-1].array.data
+                            elif m > idx_closest_to_peak:
+                                galaxy_noiseless[m][i] = images[m].array.data
                 else:
                     galaxy_noiseless[i] = images[idx_closest_to_peak].array.data
                 blend_noisy[i] = blend_img.array.data
@@ -368,13 +388,17 @@ def image_generator_real(cosmos_cat_dir, training_or_test, isolated_or_blended, 
                 # real galaxies
                 if training_or_test=='test':
                     galaxy_noiseless_real[0][i] = images_real_array[idx_closest_to_peak].data
-                    for m in range (nb_blended_gal-1):
-                        galaxy_noiseless_real[1+m][i] = images_real_array[m].data
+                    if isolated_or_blended == 'blended':
+                        for m in range (1,nb_blended_gal):
+                            if m<=idx_closest_to_peak:
+                                galaxy_noiseless_real[m][i] = images_real_array[m-1].data
+                            elif m > idx_closest_to_peak:
+                                galaxy_noiseless_real[m][i] = images_real_array[m].data
+                    #galaxy_noiseless_real[0][i] = images_real_array[idx_closest_to_peak].data
+                    #for m in range (nb_blended_gal-1):
+                    #    galaxy_noiseless_real[1+m][i] = images_real_array[m].data
                 else:
                     galaxy_noiseless_real[i] = images_real_array[idx_closest_to_peak].data
-                #galaxy_noiseless_real[0][i] = images_real_array[idx_closest_to_peak].data
-                #for m in range (nb_blended_gal-1):
-                #    galaxy_noiseless_real[1+m][i] = images_real_array[m].data
                 for image_real_array in images_real_array:
                     blend_noisy_real[i] += image_real_array
 
