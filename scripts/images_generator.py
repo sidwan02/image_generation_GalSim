@@ -132,7 +132,7 @@ def image_generator_sim(cosmos_cat_dir,
                 idx_closest_to_peak_galaxy = 0
             
             if training_or_test=='test':
-                galaxy_noiseless = np.zeros((nb_blended_gal, 10, max_stamp_size,max_stamp_size))
+                galaxy_noiseless = np.zeros((nmax_blend, 10, max_stamp_size,max_stamp_size))
             else:
                 galaxy_noiseless = np.zeros((10, max_stamp_size,max_stamp_size))
             blend_noisy = np.zeros((10,max_stamp_size,max_stamp_size))
@@ -329,8 +329,8 @@ def image_generator_real(cosmos_cat_dir,
                 idx_closest_to_peak_galaxy = 0
             
             if training_or_test=='test':
-                galaxy_noiseless = np.zeros((nb_blended_gal, 10, max_stamp_size,max_stamp_size))
-                galaxy_noiseless_real = np.zeros((nb_blended_gal, 10,max_stamp_size,max_stamp_size))
+                galaxy_noiseless = np.zeros((nmax_blend, 10, max_stamp_size,max_stamp_size))
+                galaxy_noiseless_real = np.zeros((nmax_blend, 10,max_stamp_size,max_stamp_size))
             else:
                 galaxy_noiseless = np.zeros((10, max_stamp_size,max_stamp_size))
                 galaxy_noiseless_real = np.zeros((10, max_stamp_size,max_stamp_size))
