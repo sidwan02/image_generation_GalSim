@@ -81,13 +81,23 @@ elif isolated_or_blended=='blended':
         for i in range (nmax_blend[1]):
             keys = keys + ['redshift_'+str(i), 'moment_sigma_'+str(i), 'e1_ksb_'+str(i), 'e2_ksb_'+str(i),'e1_fit_'+str(i), 'e2_fit_'+str(i), 'mag_'+str(i), 'weight_fit_'+str(i)]
 
-keys = keys + ['nb_blended_gal', 'SNR', 'SNR_peak', 'mag', 'mag_ir', 'closest_x', 'closest_y', 'closest_mag', 'closest_mag_ir',  'idx_closest_to_peak', 'n_peak_detected']
+keys = keys + ['nb_blended_gal', 'SNR', 'SNR_peak', 'mag', 'mag_ir', 'closest_x', 'closest_y', 'closest_mag', 'closest_mag_ir',  'idx_closest_to_peak', 'n_peak_detected', 'fwhm_lsst']
 
 # Create directories if needed
 if not os.path.exists(data_dir+case):
     os.mkdir(data_dir+case)
 if not os.path.exists(save_dir):
     os.mkdir(save_dir)
+
+
+
+
+
+
+save_dir = '/pbs/home/b/barcelin/sps_link/data/test_gen/'
+
+
+
 
 
 for icat in trange(N_files):
