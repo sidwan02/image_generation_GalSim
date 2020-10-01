@@ -36,6 +36,7 @@ method_shift_brightest = 'noshift'
 method_shift_others = 'uniform'
 max_dx = 3.2 #in arcseconds, limit to use for uniform shifting: the center of the shifted galaxy will be shifted from the center or from the brightest galaxy from a random number between [-max_dx ; max_dx] arcsecond
 max_r = 2. #in arcseconds, limit to use for annulus shifting: galaxy is shifted in an annulus around the center of the image or of the brightest galaxy which has for minimum radius fwhm_lsst/2 and for maximum radius max_r
+psf_lsst_fixed = False # Choice to have a fixed LSST PSF for each image or not
 
 # Load data_dir from environment variables
 data_dir = str(os.environ.get('IMGEN_DATA'))
@@ -89,16 +90,6 @@ if not os.path.exists(save_dir):
     os.mkdir(save_dir)
 
 
-
-
-
-
-save_dir = '/pbs/home/b/barcelin/sps_link/data/test_gen/'#
-
-
-
-
-
 for icat in trange(N_files):
     # Run params
     root_i = root+str(icat)
@@ -113,9 +104,9 @@ for icat in trange(N_files):
     
     # Depending of type of galaxies you wand (simulation or real galaxies) use the correct generating function
     if gal_type == 'simulation':
-        res = utils.apply_ntimes(image_generator_sim, N_per_file, (cosmos_cat_dir, training_or_test, isolated_or_blended, used_idx, nmax_blend, max_try, mag_cut, method_shift_brightest, method_shift_others, max_dx, max_r, do_peak_detection, center_brightest, max_stamp_size))
+        res = utils.apply_ntimes(image_generator_sim, N_per_file, (cosmos_cat_dir, training_or_test, isolated_or_blended, used_idx, nmax_blend, max_try, mag_cut, method_shift_brightest, method_shift_others, max_dx, max_r, do_peak_detection, center_brightest, max_stamp_size, psf_lsst_fixed))
     elif gal_type == 'real':
-        res = utils.apply_ntimes(image_generator_real, N_per_file, (cosmos_cat_dir, training_or_test, isolated_or_blended, used_idx, nmax_blend, max_try, mag_cut, method_shift_brightest, method_shift_others, max_dx, max_r, do_peak_detection, center_brightest, max_stamp_size))
+        res = utils.apply_ntimes(image_generator_real, N_per_file, (cosmos_cat_dir, training_or_test, isolated_or_blended, used_idx, nmax_blend, max_try, mag_cut, method_shift_brightest, method_shift_others, max_dx, max_r, do_peak_detection, center_brightest, max_stamp_size, psf_lsst_fixed))
 
     
     for i in trange(N_per_file):
