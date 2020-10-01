@@ -185,6 +185,7 @@ def image_generator_sim(cosmos_cat_dir,
 
 
     # For testing, return unormalized images and data
+    data['fwhm_lsst'] = fwhm_lsst
     data['nb_blended_gal'] = nb_blended_gal
     data['mag'] = mag[0]
     data['mag_ir'] = mag_ir[0]
@@ -418,6 +419,7 @@ def image_generator_real(cosmos_cat_dir,
         except RuntimeError as e:
             print(e)
 
+    data['fwhm_lsst'] = fwhm_lsst
     data['nb_blended_gal'] = nb_blended_gal
     data['mag'] = mag[0]
     data['mag_ir'] = mag_ir[0]
