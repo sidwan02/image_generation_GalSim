@@ -3,6 +3,8 @@
 import numpy as np
 import os
 import galsim
+from scipy import integrate
+from scipy import stats
 
 ############# SIZE OF STAMPS ################
 # The stamp size of NIR instrument is taken equal to the one of LSST to have a nb of pixels which is 
@@ -89,8 +91,33 @@ sky_level_pixel = sky_level_pixel_nir + [sky_level_pixel_vis] + sky_level_pixel_
 
 # LSST
 # The PSF is fixed since we stack here 100 exposures
-fwhm_lsst = 0.65 ## Fixed at median value : Fig 1 : https://arxiv.org/pdf/0805.2366.pdf
-PSF_lsst = galsim.Kolmogorov(fwhm=fwhm_lsst)
+def psf_lsst(psf_lsst_fixed=False):
+    if psf_lsst_fixed:
+        fwhm_lsst = 0.65 ## Fixed at median value : Fig 1 : https://arxiv.org/pdf/0805.2366.pdf
+        PSF_lsst = galsim.Kolmogorov(fwhm=fwhm_lsst)
+    else:
+        def lsst_PSF():
+            #Fig 1 : https://arxiv.org/pdf/0805.2366.pdf
+            mu = -0.43058681997903414 # np.log(0.65)
+            sigma = 0.3404334041976153  # Fixed to have corresponding percentils as in paper
+            p_unnormed = lambda x : (np.exp(-(np.log(x) - mu)**2 / (2 * sigma**2))
+                            / (x * sigma * np.sqrt(2 * np.pi)))
+            p_normalization = integrate.quad(p_unnormed, 0., np.inf)[0]
+            p = lambda z : p_unnormed(z) / p_normalization
+
+            class PSF_distribution(stats.rv_continuous):
+                def __init__(self):
+                    super(PSF_distribution, self).__init__()
+                    self.a = 0.
+                    self.b = 10.
+                def _pdf(self, x):
+                    return p(x)
+
+            pdf = PSF_distribution()
+            return pdf.rvs()
+        fwhm_lsst = lsst_PSF()
+        PSF_lsst = galsim.Kolmogorov(fwhm=fwhm_lsst)
+    return PSF_lsst, fwhm_lsst
 
 # Euclid
 fwhm_euclid_nir = 0.22 # EUCLID PSF is supposed invariant (no atmosphere) despite the optical and wavelengths variations
@@ -99,7 +126,7 @@ beta = 2.5
 PSF_euclid_nir = galsim.Moffat(fwhm=fwhm_euclid_nir, beta=beta)
 PSF_euclid_vis = galsim.Moffat(fwhm=fwhm_euclid_vis, beta=beta)
 
-PSF = [PSF_euclid_nir]*3 + [PSF_euclid_vis] + [PSF_lsst]*6
+#PSF = [PSF_euclid_nir]*3 + [PSF_euclid_vis] + [PSF_lsst]*6
 
 #################### EXPOSURE AND LUMISOITY ###################
 # The luminosity is multiplied by the ratio of the noise in the LSST R band and the assumed cosmos noise             

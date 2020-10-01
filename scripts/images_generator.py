@@ -30,7 +30,8 @@ def image_generator_sim(cosmos_cat_dir,
                         max_r = 2., 
                         do_peak_detection=True, 
                         center_brightest = True, 
-                        max_stamp_size= 64):
+                        max_stamp_size= 64,
+                        psf_lsst_fixed=True):
     """
     Return numpy arrays: noiseless and noisy image of single galaxy and of blended galaxies as well as the pandaframe including data about the image and the shifts in the test sample generation configuration
     
@@ -46,6 +47,9 @@ def image_generator_sim(cosmos_cat_dir,
     method_first_shift: chosen method for shifting the centered galaxy
     do_peak_detection: boolean to do the peak detection
     """
+    # Define PSF
+    PSF_lsst, fwhm_lsst = psf_lsst(psf_lsst_fixed=psf_lsst_fixed)
+    PSF = [PSF_euclid_nir]*3 + [PSF_euclid_vis] + [PSF_lsst]*6
     # Import the COSMOS catalog
     cosmos_cat = galsim.COSMOSCatalog('real_galaxy_catalog_25.2.fits', dir=cosmos_cat_dir)
     counter = 0
@@ -218,7 +222,8 @@ def image_generator_real(cosmos_cat_dir,
                         max_r = 2., 
                         do_peak_detection=True, 
                         center_brightest = True, 
-                        max_stamp_size= 64):
+                        max_stamp_size= 64,
+                        psf_lsst_fixed=True):
     """
     Return numpy arrays: noiseless and noisy image of single galaxy and of blended galaxies as well as the pandaframe including data about the image and the shifts in the test sample generation configuration
     
@@ -234,6 +239,9 @@ def image_generator_real(cosmos_cat_dir,
     method_first_shift: chosen method for shifting the centered galaxy
     do_peak_detection: boolean to do the peak detection
     """
+    # Define PSF
+    PSF_lsst = psf_lsst(psf_lsst_fixed=False)
+    PSF = [PSF_euclid_nir]*3 + [PSF_euclid_vis] + [PSF_lsst]*6
     # Import the COSMOS catalog
     cosmos_cat = galsim.COSMOSCatalog('real_galaxy_catalog_25.2.fits', dir=cosmos_cat_dir)
     counter = 0

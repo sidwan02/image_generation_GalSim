@@ -21,14 +21,14 @@ gal_type = str(sys.argv[3]) # choose type of image (parametric model or real ima
 isolated_or_blended = str(sys.argv[4]) #Image of isolated galaxy of blended galaxies: isolated or blended
 do_peak_detection = str(sys.argv[5]).lower() == 'true'
 N_files = int(sys.argv[6]) # Nb of files to generate
-N_per_file = int(sys.argv[7]) # Number of galaxies per file
+N_per_file = int(sys.argv[7]) # Number of images (on image is contained of N filters) per file
 assert training_or_test in ['training', 'validation', 'test']
 
 # Fixed parameters:
 max_try = 100 # maximum number of try before leaving the function (to avoir infinite loop)
 mag_cut = 27.5 # cut in magnitude to select galaxies below this magnitude
 max_stamp_size = 64 # Size of patch to generate
-nmax_blend = (2,8) # Number of galaxies on an image if integer, or interval for sampling if tuple
+nmax_blend = (1,6) # Number of galaxies on an image if integer, or interval for sampling if tuple
 center_brightest = False # Center the brightest galaxy (i.e. the galaxy with the lowest magnitude)
 # If center_brightest = False : choose with method to use to shift the brightest
 method_shift_brightest = 'noshift'
@@ -87,6 +87,17 @@ if not os.path.exists(data_dir+case):
     os.mkdir(data_dir+case)
 if not os.path.exists(save_dir):
     os.mkdir(save_dir)
+
+
+
+
+
+
+save_dir = '/pbs/home/b/barcelin/sps_link/data/test_gen/'#
+
+
+
+
 
 for icat in trange(N_files):
     # Run params
