@@ -31,7 +31,7 @@ max_stamp_size = 64 # Size of patch to generate
 nmax_blend = (1,6) # Number of galaxies on an image if integer, or interval for sampling if tuple
 center_brightest = False # Center the brightest galaxy (i.e. the galaxy with the lowest magnitude)
 # If center_brightest = False : choose with method to use to shift the brightest
-method_shift_brightest = 'noshift'
+method_shift_brightest = 'uniform'
 # And then you need to choose the method to shift the other galaxies as a function of the position of the brightest on the image
 method_shift_others = 'uniform'
 max_dx = 3.2 #in arcseconds, limit to use for uniform shifting: the center of the shifted galaxy will be shifted from the center or from the brightest galaxy from a random number between [-max_dx ; max_dx] arcsecond
@@ -88,16 +88,6 @@ if not os.path.exists(data_dir+case):
     os.mkdir(data_dir+case)
 if not os.path.exists(save_dir):
     os.mkdir(save_dir)
-
-
-
-
-
-
-save_dir = '/pbs/home/b/barcelin/sps_link/data/test_gen/'
-
-
-
 
 
 for icat in trange(N_files):
