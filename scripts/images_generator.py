@@ -263,7 +263,7 @@ def image_generator_real(cosmos_cat_dir,
     do_peak_detection: boolean to do the peak detection
     """
     # Define PSF
-    PSF_lsst = psf_lsst(psf_lsst_fixed=False)
+    PSF_lsst, fwhm_lsst = psf_lsst(psf_lsst_fixed=False)
     PSF = [PSF_euclid_nir]*3 + [PSF_euclid_vis] + [PSF_lsst]*6
     # print("PSF[6]: ", PSF[6])
     # Import the COSMOS catalog
