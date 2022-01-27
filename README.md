@@ -25,6 +25,11 @@ conda activate img_generation
   python3 -m pip install -r ressources/requirements.txt
   ```
   - Install fftw3 following the instructions presented [here](https://galsim-developers.github.io/GalSim/_build/html/install_pip.html)
+
+  ```
+  conda install fftw
+  ```
+
   - Install GalSim
   ```
   pip install galsim
